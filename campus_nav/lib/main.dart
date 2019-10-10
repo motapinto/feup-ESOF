@@ -45,10 +45,10 @@ class MyHomePageState extends State<MyHomePage> {
               icon: new Icon(Icons.search),
               tooltip: 'search',
               onPressed: () {
-                //showSearch(
-                  //context: context,
-                  //delegate: DataSearch(conferences: conferencesList)
-                //);
+                showSearch(
+                  context: context,
+                  delegate: DataSearch(conferences: conferencesList)
+                );
               },
             )
           ],
@@ -209,6 +209,8 @@ class DataSearch extends SearchDelegate<String> {
   final conferences;
   DataSearch({this.conferences});
 
+  final recentConferences = ['A', 'B'];
+
   @override
   List <Widget> buildActions(BuildContext context) {
     return [
@@ -243,6 +245,15 @@ class DataSearch extends SearchDelegate<String> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
+    final suggestionList = query.isEmpty?recentConferences:conferences;
+    return ListView.builder(
+      itemBuilder: 
+        (context, index) => ListTile(
+          leading: Icon(Icons.help),
+          title: Text(suggestionList[index]),
+        ),
+        itemCount: suggestionList.length,
+    );
   }
 
 }
