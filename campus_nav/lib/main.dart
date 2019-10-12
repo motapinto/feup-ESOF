@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'profile.dart';
+import 'favorites.dart';
+import 'settings.dart';
+import 'help.dart';
 
 void main() => runApp(CampusNAV());
+
 
 class CampusNAV extends StatelessWidget {
   @override
@@ -8,25 +13,16 @@ class CampusNAV extends StatelessWidget {
     return MaterialApp(
       title: 'Campus NAV', 
       theme: ThemeData(
-        primaryColor: Colors.black,
+        primaryColor: Colors.blue,
         brightness: Brightness.dark,
       ),
       home: MyHomePage(title: 'Campus NAV'),
-      
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+class MyHomePage extends StatelessWidget {
 
-  final String title;
-
-  @override
-  MyHomePageState createState() => MyHomePageState();
-}
-
-class MyHomePageState extends State<MyHomePage> {
   final conferencesList = [
     "Conference A",
     "Conference B",
@@ -34,12 +30,14 @@ class MyHomePageState extends State<MyHomePage> {
     "Conference D",
     "Conference E",
   ];
-  
+  final title;
+  MyHomePage({this.title});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(widget.title),
+          title: Text(title),
           actions: <Widget>[
             new IconButton(
               icon: new Icon(Icons.search),
@@ -57,6 +55,7 @@ class MyHomePageState extends State<MyHomePage> {
         drawer: AppDrawer(),
     );
   }
+
 }
 
 class ConferenceList extends StatelessWidget {
@@ -149,7 +148,7 @@ class AppDrawer extends StatelessWidget {
                   child: Text(''),
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage('images/logo.png'),
+                      image: AssetImage('assets/images/logo.png'),
                       fit: BoxFit.cover,
                     )
                   ),
@@ -159,7 +158,10 @@ class AppDrawer extends StatelessWidget {
                   title: Text('Home Page'),
                   leading: Icon(Icons.home),
                   onTap: () {
-                    Navigator.pop(context);
+                    Navigator.push(
+                      context, 
+                      MaterialPageRoute(builder: (context) =>MyHomePage()),
+                    );
                   },
                 ),
                 Divider(thickness: 5,),
@@ -168,8 +170,11 @@ class AppDrawer extends StatelessWidget {
                   title: Text('Profile'),
                   leading: Icon(Icons.person),
                   onTap: () {
-                    Navigator.pop(context);
-                  },
+                    Navigator.push(
+                      context, 
+                      MaterialPageRoute(builder: (context) =>MyProfile()),
+                    );
+                  },            
                 ),
                 Divider(thickness: 5,),
                 
@@ -186,7 +191,10 @@ class AppDrawer extends StatelessWidget {
                   title: Text('Settings'),
                   leading: Icon(Icons.settings),
                   onTap: () {
-                    Navigator.pop(context);
+                    Navigator.push(
+                      context, 
+                      MaterialPageRoute(builder: (context) =>MySettings()),
+                    );
                   },
                 ),
                 Divider(thickness: 5,),
@@ -208,8 +216,6 @@ class AppDrawer extends StatelessWidget {
 class DataSearch extends SearchDelegate<String> {
   final conferences;
   DataSearch({this.conferences});
-
-  final recentConferences = ['A', 'B'];
 
   @override
   List <Widget> buildActions(BuildContext context) {
@@ -238,14 +244,18 @@ class DataSearch extends SearchDelegate<String> {
       } 
     );
   }
-
+  
   @override
   Widget buildResults(BuildContext context) {
+    
   }
+
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    final suggestionList = query.isEmpty?recentConferences:conferences;
+    
+    final suggestionList = conferences.where((p) => p.startsWith(query));
+    
     return ListView.builder(
       itemBuilder: 
         (context, index) => ListTile(
@@ -257,4 +267,3 @@ class DataSearch extends SearchDelegate<String> {
   }
 
 }
-
