@@ -22,26 +22,25 @@ dependencies:
     sdk: flutter
   material_design_icons_flutter: 3.2.3695
   dynamic_theme: ^1.0.1
-  geolocation:
-   git:
-      url: 'https://github.com/shehabic/geolocation'
+  image_picker: 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
     
 flutter:
-  uses-material-design: true
   assets:
     - assets/images/
+  fonts:
+  - family: Montserrat
+    fonts:
+      - asset: assets/fonts/Montserrat/Montserrat-Regular.ttf  
+      - asset: assets/fonts/Montserrat/Montserrat-Italic.ttf  
+        style: italic
+  uses-material-design: true
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/assets-and-images/#from-packages
-
-#fonts:
-#  - family: CustomIcons
-#    fonts:
-#      - asset: assets/CustomIcons.ttf  
