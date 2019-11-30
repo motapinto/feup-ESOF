@@ -1,11 +1,6 @@
-//IO operations and variables
-import 'dart:io';
-//Flutter widgets 
-import 'package:flutter/material.dart';
-//Image picker to select photo from camera
-import 'package:image_picker/image_picker.dart';
-//Controller
-import 'package:campus_nav/controller/Controller.dart';
+import 'package:flutter/material.dart';                   //Flutter widgets 
+import 'package:image_picker/image_picker.dart';          //Image picker to select photo from camera
+import 'package:campus_nav/controller/Controller.dart';   //Controller
 
 
 class MyProfileWidget extends StatefulWidget {
@@ -15,39 +10,34 @@ class MyProfileWidget extends StatefulWidget {
 }
 
 class _MyProfileWidgetState extends State<MyProfileWidget> {
-  File img;
-  final defaultProfile = 'assets/images/profileDefault.png';
-  bool isDark = Controller.instance().getSettings().darkMode;
-  
-  String name = Controller.instance().getProfile().name;
-  String imagePath = Controller.instance().getProfile().image;
-  bool sports = Controller.instance().getProfile().sports;
-  bool science = Controller.instance().getProfile().science;
-  bool tech = Controller.instance().getProfile().tech;
-  bool softw = Controller.instance().getProfile().softw;
-  bool business = Controller.instance().getProfile().business;
-
+  Image image;
 
   @override
   void initState() {
     super.initState();
+    image = Image.asset(Controller.instance().getProfile().image,
+                      fit: BoxFit.fitWidth,
+                      width: 150.0,
+                      height: 150.0);
   }
 
-  // Picks image from gallery
-  updateImageGallery() async{
-    img = await ImagePicker.pickImage(source: ImageSource.gallery);
-    Controller.instance().getProfile().image = img.path;
-    Controller.instance().saveProfile();
-    imagePath = img.path;
+  // Picks image from source
+  updateImageSource(source) async{
+    try{
+      final img = await (ImagePicker.pickImage(source: source) ?? null);
+      Controller.instance().getProfile().image = (img==null?Controller.instance().getProfile().image:img.path);
+      Controller.instance().saveProfile(); 
+      if(img != null)
+        image = Image.file(img, fit: BoxFit.fitWidth, width: 150.0, height: 150.0); 
+    }
+    catch (_) {}
   }
 
-  // Picks image from phone camera
-  updateImageCamera() async{
-    img = await ImagePicker.pickImage(source: ImageSource.camera);
-    Controller.instance().getProfile().image = img.path;
-    Controller.instance().saveProfile();
-    imagePath = img.path;
-  }
+  // Picks image
+  updateImage(ImageSource source) async{
+    await updateImageSource(source);
+    setState(() {});
+  } 
 
   //Updates user name
   updateName(text) {
@@ -60,10 +50,7 @@ class _MyProfileWidgetState extends State<MyProfileWidget> {
   //Updates user gender
   updateGender() {
     setState(() {
-      Controller.instance().getProfile().isMale == false ? 
-        Controller.instance().getProfile().isMale = true : 
-        Controller.instance().getProfile().isMale = false;
-
+      Controller.instance().getProfile().isMale = !Controller.instance().getProfile().isMale;
       Controller.instance().saveProfile();
     });
   }
@@ -71,11 +58,7 @@ class _MyProfileWidgetState extends State<MyProfileWidget> {
   //Updates specific interest of the user
   updateSports() {
     setState(() {
-      Controller.instance().getProfile().sports == false ? 
-        Controller.instance().getProfile().sports = true : 
-        Controller.instance().getProfile().sports = false;
-      
-      sports = Controller.instance().getProfile().sports;
+      Controller.instance().getProfile().sports = !Controller.instance().getProfile().sports;
       Controller.instance().saveProfile();
     });
   }
@@ -83,11 +66,7 @@ class _MyProfileWidgetState extends State<MyProfileWidget> {
   //Updates specific interest of the user
   updateScience() {
     setState(() {
-      Controller.instance().getProfile().science == false ? 
-        Controller.instance().getProfile().science = true : 
-        Controller.instance().getProfile().science = false;
-      
-      science = Controller.instance().getProfile().science;
+      Controller.instance().getProfile().science = !Controller.instance().getProfile().science;
       Controller.instance().saveProfile();
     });
   }
@@ -95,11 +74,7 @@ class _MyProfileWidgetState extends State<MyProfileWidget> {
   //Updates specific interest of the user
   updateTech() {
     setState(() {
-      Controller.instance().getProfile().tech == false ? 
-        Controller.instance().getProfile().tech = true : 
-        Controller.instance().getProfile().tech = false;
-      
-      tech = Controller.instance().getProfile().tech;
+      Controller.instance().getProfile().tech = !Controller.instance().getProfile().tech;
       Controller.instance().saveProfile();
     });
   }
@@ -107,11 +82,7 @@ class _MyProfileWidgetState extends State<MyProfileWidget> {
   //Updates specific interest of the user
   updateSoftw() {
     setState(() {
-      Controller.instance().getProfile().softw == false ? 
-        Controller.instance().getProfile().softw = true : 
-        Controller.instance().getProfile().softw = false;
-      
-      softw = Controller.instance().getProfile().softw;
+      Controller.instance().getProfile().softw = !Controller.instance().getProfile().softw;
       Controller.instance().saveProfile();
     });
   }
@@ -119,11 +90,7 @@ class _MyProfileWidgetState extends State<MyProfileWidget> {
   //Updates specific interest of the user
   updateBusiness() {
     setState(() {
-      Controller.instance().getProfile().business == false ? 
-        Controller.instance().getProfile().business = true : 
-        Controller.instance().getProfile().business = false;
-      
-      business = Controller.instance().getProfile().business;
+      Controller.instance().getProfile().business = !Controller.instance().getProfile().business;
       Controller.instance().saveProfile();
     });
   }
@@ -145,7 +112,7 @@ class _MyProfileWidgetState extends State<MyProfileWidget> {
                 child: Align(
                   alignment: Alignment.bottomRight,
                   child: IconButton(
-                    onPressed: updateImageGallery,
+                    onPressed: () async => await updateImage(ImageSource.gallery),
                     icon: Icon(Icons.photo)
                   ), 
                 ),  
@@ -157,7 +124,7 @@ class _MyProfileWidgetState extends State<MyProfileWidget> {
                 child: Align(
                   alignment: Alignment.centerRight,
                   child: IconButton(
-                    onPressed: updateImageCamera,
+                    onPressed: () async => await updateImage(ImageSource.camera),
                     icon: Icon(Icons.photo_camera)
                   ), 
                 ),  
@@ -169,11 +136,7 @@ class _MyProfileWidgetState extends State<MyProfileWidget> {
                 child: Align(
                   alignment: Alignment.center,
                   child: ClipOval(
-                    child: Image.asset(imagePath==''?defaultProfile:imagePath,
-                      fit: BoxFit.fitWidth,
-                      width: 150.0,
-                      height: 150.0,
-                    )
+                    child: image
                   ),
                 ),
               ),
@@ -218,7 +181,7 @@ class _MyProfileWidgetState extends State<MyProfileWidget> {
               ListTile(
                 trailing: IconButton(
                   tooltip: 'Edit attribute',
-                  icon: Icon(sports == true ? Icons.check_circle : Icons.check_circle_outline),
+                  icon: Icon(Controller.instance().getProfile().sports == true ? Icons.check_circle : Icons.check_circle_outline),
                   onPressed: updateSports,
                 ),
                 title: Text('Sports', style: TextStyle(decoration: TextDecoration.underline),),
@@ -226,7 +189,7 @@ class _MyProfileWidgetState extends State<MyProfileWidget> {
               ListTile(
                 trailing: IconButton(
                   tooltip: 'Edit attribute',
-                  icon: Icon(science == true ? Icons.check_circle : Icons.check_circle_outline),
+                  icon: Icon(Controller.instance().getProfile().science == true ? Icons.check_circle : Icons.check_circle_outline),
                   onPressed: updateScience,
                 ),
                 title: Text('Science', style: TextStyle(decoration: TextDecoration.underline),),
@@ -234,7 +197,7 @@ class _MyProfileWidgetState extends State<MyProfileWidget> {
               ListTile(
                 trailing: IconButton(
                   tooltip: 'Edit attribute',
-                  icon: Icon(tech == true ? Icons.check_circle : Icons.check_circle_outline),
+                  icon: Icon(Controller.instance().getProfile().tech == true ? Icons.check_circle : Icons.check_circle_outline),
                   onPressed: updateTech,
                 ),
                 title: Text('Tech', style: TextStyle(decoration: TextDecoration.underline),),
@@ -242,7 +205,7 @@ class _MyProfileWidgetState extends State<MyProfileWidget> {
               ListTile(
                 trailing: IconButton(
                   tooltip: 'Edit attribute',
-                  icon: Icon(softw == true ? Icons.check_circle : Icons.check_circle_outline),
+                  icon: Icon(Controller.instance().getProfile().softw == true ? Icons.check_circle : Icons.check_circle_outline),
                   onPressed: updateSoftw,
                 ),
                 title: Text('Software Engineering', style: TextStyle(decoration: TextDecoration.underline),),
@@ -250,7 +213,7 @@ class _MyProfileWidgetState extends State<MyProfileWidget> {
               ListTile(
                 trailing: IconButton(
                   tooltip: 'Edit attribute',
-                  icon: Icon(business == true ? Icons.check_circle : Icons.check_circle_outline),
+                  icon: Icon(Controller.instance().getProfile().business == true ? Icons.check_circle : Icons.check_circle_outline),
                   onPressed: updateBusiness,
                 ),
                 title: Text('Business', style: TextStyle(decoration: TextDecoration.underline),),
