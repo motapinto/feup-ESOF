@@ -1,0 +1,60 @@
+name: campus_nav
+description: A new Flutter project.
+
+# The following defines the version and build number for your application.
+# A version number is three numbers separated by dots, like 1.2.43
+# followed by an optional build number separated by a +.
+# Both the version and the builder number may be overridden in flutter
+# build by specifying --build-name and --build-number, respectively.
+# In Android, build-name is used as versionName while build-number used as versionCode.
+# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
+# In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
+# Read more about iOS versioning at
+# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+version: 1.0.0+2
+
+environment:
+  sdk: ">=2.3.0 <3.0.0"
+
+dependencies:
+  color: any
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^0.1.2    
+  webview_flutter: ^0.3.14+1
+  material_design_icons_flutter: ^3.2.3695
+  dynamic_theme: ^1.0.1
+  flutter_gherkin: ^1.1.4
+  google_maps_flutter: ^0.5.21+12
+  permission: ^0.1.5
+  http: ^0.12.0+2
+  geolocator: ^5.1.5
+  image_picker: 
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_launcher_icons: ^0.7.4
+
+flutter_icons:
+  image_path: assets/images/app-logo.png
+  android: true
+  ios: true
+
+flutter:
+  assets:
+    - assets/images/
+  fonts:
+  - family: Montserrat
+    fonts:
+      - asset: assets/fonts/Montserrat/Montserrat-Regular.ttf  
+      - asset: assets/fonts/Montserrat/Montserrat-Italic.ttf  
+        style: italic
+  uses-material-design: true
+
+  # An image asset can refer to one or more resolution-specific "variants", see
+  # https://flutter.dev/assets-and-images/#resolution-aware.
+
+  # For details regarding adding assets from package dependencies, see
+  # https://flutter.dev/assets-and-images/#from-packages
