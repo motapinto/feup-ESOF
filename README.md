@@ -9,8 +9,10 @@
 > Francisco Gonçalves ([kiko-g](https://github.com/kiko-g))\
 > João Mota ([jppm99](https://github.com/jppm99))\
 > Luís Ramos ([luispvramos](https://github.com/))\
-> Martim Silva ([motapinto](https://github.com/motapinto))\
-> Matheus Alves ([matheusstiehler](https://github.com/matheusstiehler))
+> Martim Silva ([motapinto](https://github.com/motapinto))
+>
+> **Development:**\
+> https://github.com/softeng-feup/open-cx-nav-inc
 >
 > **Any problems?**\
 > Start an Issue please.
