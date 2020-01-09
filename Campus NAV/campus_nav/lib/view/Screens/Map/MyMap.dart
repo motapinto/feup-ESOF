@@ -158,7 +158,7 @@ class MyMapState extends State<MyMap> {
 
             getRoute(pos.latitude, pos.longitude).then((route) {
               setState(() {
-                lines.add(getLine(route));
+                lines.add(getLine(route));                
               });
             });
           }
@@ -186,6 +186,7 @@ class MyMapState extends State<MyMap> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       key: Key('Map Page'),
       appBar: AppBar(
