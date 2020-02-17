@@ -1,7 +1,7 @@
 # open-cx-nav-inc
 # ESOF
 
-> **2018/2019** - 3rd Year, 1st Semester
+> **2019/2020** - 3rd Year, 1st Semester
 >
 > **Course:** Engenharia de Software: [ESOF page in sigarra](https://sigarra.up.pt/feup/pt/ucurr_geral.ficha_uc_view?pv_ocorrencia_id=436443) | Software Engineering
 >
